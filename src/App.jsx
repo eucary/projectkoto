@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import './App.css';
-import Navbar from './components/navbar';
+import Navbar from './components/Navbar';
 import { auth } from './firebase'; // Import Firebase auth
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
