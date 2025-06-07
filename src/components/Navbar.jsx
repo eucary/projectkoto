@@ -1,4 +1,4 @@
-import './navbar.css';
+import './Navbar.css';
 import logo from '../assets/logoko.png'; // Import the image
 
 function Navbar() {
