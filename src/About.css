@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+
+
+.about-website {
+  font-family: "Chango", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 15px;
+  
+}
+.about-author-info{
+  font-family: "Chango", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 15px;
+  color: #000000;
+
+}
+
+.about-details {
+  width: 60%;
+  text-align: justify;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.about-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 50px;
+  padding: 20px;
+  background-color: #9ACBD0;
+}
+
+.author-avatar {
+  width: 400px;
+  height: 500px;
+  border-radius: 60%;
+  margin: 10px;
+  border: 10px dashed rgb(0, 47, 50);
+  box-sizing: border-box;
+}

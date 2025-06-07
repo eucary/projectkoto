@@ -1,0 +1,54 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+
+
+.sidebar {
+    background-color: #ffffff;
+    height: 88vh; 
+    width: 320px;
+
+}   
+
+.fullname {
+  margin: 30px;
+  font-family: "Chango", sans-serif;
+  font-size: 30px;
+  color: black;
+    
+}
+
+.sidebar ul {
+    list-style-type: none;
+    font-size: 20px;
+    background-color: #9ACBD0;
+    padding: 0;
+
+    
+}
+
+.sidebar__link {
+    font-family: "Chango", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+
+    color: black;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    display: flex; /* Use flexbox for vertical alignment */
+    align-items: center; /* Center the text vertically */
+    border: 1px solid #000000;
+    font-size: 20px ;
+    padding : 20px 30px; /* Add horizontal padding for spacing */
+
+}
+.sidebar__link a {
+  text-decoration: none;
+  color: inherit;
+}
+.sidebar__icon {
+    width: 50px; /* Adjust the width of the icon */
+    height: 50px; /* Adjust the height of the icon */
+    border-radius: 50%; /* Optional: Make the image circular */
+    margin-right: 15px; /* Add spacing between the icon and the text */
+    object-fit: cover; /* Ensure the image fits within the dimensions */
+}

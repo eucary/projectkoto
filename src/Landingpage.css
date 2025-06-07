@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+.content1{
+
+    background-color: #f2f2f2;
+    
+    padding: 50px;
+    width: 60%;
+    border-left: #aaaaaa solid 1px;
+    border-right: #aaaaaa solid 1px;
+}
+body{
+    margin: 0;
+    font-family: Arial, sans-serif; 
+}
+
+.container1{
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+
+}   
+
+p1{
+    font-size: 50px;
+    font-weight: bold;
+    color: #000000;
+    margin: 10px 0;
+}
+
+headd{
+    font-family: "Chango", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 40px;
+    font-weight: bold;
+    color: #000000;
+
+}
+.landingpage p{
+    margin-top: 5px;
+     font-family: "Lexend", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    color: #000000;
+}
