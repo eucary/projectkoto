@@ -1,3 +1,7 @@
+**Your corrected [netlify.toml](http://_vscodecontentref_/1) should look like this:**
+
+```toml
+
 [build]
   publish = "dist"
   command = "npm run build"
