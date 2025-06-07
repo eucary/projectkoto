@@ -1,4 +1,4 @@
-import './navbar1.css';
+import './Navbar1.css';
 import logo from '../assets/logoko.png'; // Import the image
 import { auth } from '../firebase'; // Import Firebase auth
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
