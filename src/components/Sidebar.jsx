@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { Link } from 'react-router-dom'; // Import Link
-
+import imageIcon from '../assets/image.png'; // Import the image
+import homepicIcon from '../assets/homepic.png'; // Import the image
 function Sidebar() {
   const [fullName, setFullName] = useState('');
 
@@ -27,11 +28,11 @@ function Sidebar() {
       <ul className="sidebar__links">
 
         <li className='sidebar__link'>
-          <img src='src/assets/image.png' className='sidebar__icon' />
+          <img src={imageIcon} className='sidebar__icon' alt="Profile Icon" />
           <Link to="/Profile">Profile</Link>
         </li>
         <li className='sidebar__link'>
-          <img src='src/assets/homepic.png' className='sidebar__icon' />
+          <img src={homepicIcon} className='sidebar__icon' alt="Home Icon" />
           <Link to="/Landingpage">Back</Link>
           </li>
       </ul>

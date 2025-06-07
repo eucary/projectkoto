@@ -1,6 +1,7 @@
 
 import Navbar1 from './components/Navbar1'; // Import the Navbar component
 import './About.css'; // Import the CSS file for styling
+import frameImg from './assets/FRAME.JPG'; // Import the image
 function About() {
   return (
     <>
@@ -8,7 +9,7 @@ function About() {
     <div className="about-container">
         <div className="about-author">
             
-            <img src="src/assets/FRAME.JPG" alt="Author Avatar" className="author-avatar" />
+            <img src={frameImg} alt="Author Avatar" className="author-avatar" />
         </div>
         <div className="about-details">
             <div className="about-author-info">
