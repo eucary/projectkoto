@@ -44,48 +44,51 @@ function Profile() {
     }
   };
 
-  return (
-    <>
-      <Navbar1 />
-      <div className="container2">
-        <Sidebar />
-        <div className="content3">
-            <div className="profile-container">
-              <div className="emailfullname">
-                <eemail>
-                    <p3>Email</p3>
-                    <input
-                      type="email"
-                      value={email}
-                      readOnly  
-                      placeholder="Email"
-                    />
-                </eemail>
-                <fullname>
-                  <p3>Full Name</p3>
-                  <input
-                    type="fullname"
-                    value={fullName}
-                    readOnly={!editing}
-                    onChange={e => setFullName(e.target.value)}
-                    placeholder="Full Name"
-                  />
-                </fullname>
-              </div>
-                <buttonsaveback>
-                {!editing ? (
-                  <button className="edit-profile-button" onClick={handleEdit}>Edit Profile</button>
-                ) : (
-                  <button className="save" onClick={handleSave}>Save</button>
-                )}
-                <Link to="/Landingpage" className="back-link">
-                  <button className="back-button">Back</button></Link>
-                </buttonsaveback>
+  
+
+return (
+  <>
+    <Navbar1 />
+    <div className="container2">
+      <Sidebar />
+      <div className="content3">
+        <div className="profile-container">
+          <div className="emailfullname">
+            <div className="eemail">
+              <p>Email</p>
+              <input
+                type="email"
+                value={email}
+                readOnly  
+                placeholder="Email"
+              />
+            </div>
+            <div className="ffullname">
+              <p>Full Name</p>
+              <input
+                type="text"
+                value={fullName}
+                readOnly={!editing}
+                onChange={e => setFullName(e.target.value)}
+                placeholder="Full Name"
+              />
             </div>
           </div>
+          <div className="buttonsaveback">
+            {!editing ? (
+              <button className="edit-profile-button" onClick={handleEdit}>Edit Profile</button>
+            ) : (
+              <button className="save" onClick={handleSave}>Save</button>
+            )}
+            <Link to="/Landingpage" className="back-link">
+              <button className="back-button">Back</button>
+            </Link>
+          </div>
+        </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 }
 
 export default Profile;

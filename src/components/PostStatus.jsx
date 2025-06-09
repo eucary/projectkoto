@@ -130,7 +130,7 @@ const handlePostStatus = async () => {
                 <>
                 <div className='poster'>
                     <span>
-                      <strong>Posted by:</strong> {s.author}
+                      <strong>Posted by:</strong> {fullName}
                     </span>
                     <posted>{s.text}</posted>
                     <small>
