@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { collection, addDoc, getDocs, query, orderBy, serverTimestamp, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, orderBy, serverTimestamp, updateDoc, doc, where } from 'firebase/firestore';
 import './PostStatus.css';
 import { deleteDoc } from 'firebase/firestore';
 import { auth } from '../firebase';
-import { where } from 'firebase/firestore';
+
 function PostStatus() {
   const [status, setStatus] = useState('');
   const [statuses, setStatuses] = useState([]);
   const [editingId, setEditingId] = useState(null);
   const [editingText, setEditingText] = useState('');
   const [fullName, setFullName] = useState('');
-  // Fetch all statuses
+  const [userMap, setUserMap] = useState({}); // uid -> fullName
 
-  
+  // Fetch current user's full name
   useEffect(() => {
-  const fetchFullName = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        setFullName(querySnapshot.docs[0].data().fullName);
+    const fetchFullName = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          setFullName(querySnapshot.docs[0].data().fullName);
+        }
       }
-    }
-  };
-  fetchFullName();
-}, []);
+    };
+    fetchFullName();
+  }, []);
+
+  // Fetch all statuses and all users' full names
   useEffect(() => {
-    const fetchStatuses = async () => {
+    const fetchStatusesAndUsers = async () => {
       try {
+        // Fetch statuses
         const q = query(collection(db, 'statuses'), orderBy('timestamp', 'desc'));
         const querySnapshot = await getDocs(q);
         const statusesList = querySnapshot.docs.map((doc) => ({
@@ -37,70 +40,47 @@ function PostStatus() {
           ...doc.data(),
         }));
         setStatuses(statusesList);
+
+        // Fetch all users
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const map = {};
+        usersSnapshot.forEach(doc => {
+          const data = doc.data();
+          map[data.uid] = data.fullName;
+        });
+        setUserMap(map);
       } catch (error) {
-        console.error('Error fetching statuses:', error);
+        console.error('Error fetching statuses or users:', error);
       }
     };
-    fetchStatuses();
-  }, [status]); // refetch when a new status is posted
-    const handleDelete = async (id) => {
-  try {
-    await deleteDoc(doc(db, 'statuses', id));
-    setStatuses(statuses.filter(status => status.id !== id));
-  } catch (error) {
-    alert('Failed to delete status.');
-  }
-};
+    fetchStatusesAndUsers();
+  }, [status]);
+
   // Post a new status
-const handlePostStatus = async () => {
-  if (!status.trim()) {
-    alert('Status cannot be empty!');
-    return;
-  }
-  if (!fullName) {
-    alert('Loading your profile, please wait...');
-    return;
-  }
-  try {
-    const user = auth.currentUser;
-    await addDoc(collection(db, 'statuses'), {
-      text: status,
-      timestamp: serverTimestamp(),
-      author: fullName,
-      uid: user ? user.uid : null, // <-- Save UID for ownership
-    });
-    setStatus('');
-  } catch (error) {
-    console.error('Error posting status:', error);
-    alert('Failed to post status. Please try again.');
-  }
-};
-
-  // Start editing a status
-  const handleEdit = (id, text) => {
-    setEditingId(id);
-    setEditingText(text);
-  };
-
-  // Save edited status
-  const handleSaveEdit = async (id) => {
+  const handlePostStatus = async () => {
+    if (!status.trim()) {
+      alert('Status cannot be empty!');
+      return;
+    }
+    if (!fullName) {
+      alert('Loading your profile, please wait...');
+      return;
+    }
     try {
-      const statusRef = doc(db, 'statuses', id);
-      await updateDoc(statusRef, { text: editingText });
-      setEditingId(null);
-      setEditingText('');
-      // Refresh statuses
-      const q = query(collection(db, 'statuses'), orderBy('timestamp', 'desc'));
-      const querySnapshot = await getDocs(q);
-      const statusesList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setStatuses(statusesList);
+      const user = auth.currentUser;
+      await addDoc(collection(db, 'statuses'), {
+        text: status,
+        timestamp: serverTimestamp(),
+        uid: user ? user.uid : null, // Only save UID
+      });
+      setStatus('');
     } catch (error) {
-      alert('Failed to update status.');
+      console.error('Error posting status:', error);
+      alert('Failed to post status. Please try again.');
     }
   };
+
+  // ... keep your handleEdit, handleSaveEdit, handleDelete as is ...
 
   return (
     <div className="post-status">
@@ -112,7 +92,7 @@ const handlePostStatus = async () => {
       />
       <button onClick={handlePostStatus}>Post</button>
       <div className="status-list">
-        <head2>Posted Status</head2>
+        <h2>Posted Status</h2>
         {statuses.length === 0 ? (
           <p>No statuses posted yet.</p>
         ) : (
@@ -128,26 +108,26 @@ const handlePostStatus = async () => {
                 </>
               ) : (
                 <>
-                <div className='poster'>
+                  <div className='poster'>
                     <span>
-                      <strong>Posted by:</strong> {fullName}
+                      <strong>Posted by:</strong> {userMap[s.uid] || "Unknown"}
                     </span>
-                    <posted>{s.text}</posted>
+                    <div>{s.text}</div>
                     <small>
                       {s.timestamp && s.timestamp.toDate
                         ? new Date(s.timestamp.toDate()).toLocaleString()
                         : ''}
                     </small>
-                </div>
+                  </div>
                   <br />
-                <div className="button-group">
-                  {s.uid === (auth.currentUser && auth.currentUser.uid) && (
-                    <>
-                      <button onClick={() => handleEdit(s.id, s.text)}>Edit</button>
-                      <button onClick={() => handleDelete(s.id)}>Delete</button>
-                    </>
-                  )}
-                </div>
+                  <div className="button-group">
+                    {s.uid === (auth.currentUser && auth.currentUser.uid) && (
+                      <>
+                        <button onClick={() => handleEdit(s.id, s.text)}>Edit</button>
+                        <button onClick={() => handleDelete(s.id)}>Delete</button>
+                      </>
+                    )}
+                  </div>
                 </>
               )}
             </div>
